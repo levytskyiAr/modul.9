@@ -17,51 +17,52 @@ def hello():
     return "How can I help you?"
 
 @input_error
-def add_contact(params):
+def add(params):
     name, phone = params.split()
     contacts[name] = phone
     return f"Contact {name} added with phone number {phone}"
 
 @input_error
-def change_contact(params):
+def change(params):
     name, phone = params.split()
     contacts[name] = phone
     return f"Phone number for {name} changed to {phone}"
 
 @input_error
-def phone_contact(name):
+def phone(name):
     return f"The phone number for {name} is {contacts[name]}"
 
 @input_error
-def show_all_contacts():
+def show_all():
     if not contacts:
         return "No contacts found."
     result = "\n".join([f"{name}: {phone}" for name, phone in contacts.items()])
     return result
 
+def process_command(user_input):
+    if user_input == "hello":
+        return hello()
+    elif user_input.startswith("add"):
+        return add(user_input.split(maxsplit=1)[1])
+    elif user_input.startswith("change"):
+        return change(user_input.split(maxsplit=1)[1])
+    elif user_input.startswith("phone"):
+        return phone(user_input.split(maxsplit=1)[1])
+    elif user_input == "show all":
+        return show_all()
+    else:
+        return "Invalid command. Type 'help' for a list of commands."
+
 def main():
     while True:
-        command = input("Enter command: ").lower()
+        user_input = input("Enter command: ").lower()
 
-        if command in ["good bye", "close", "exit"]:
+        if user_input in ["good bye", "close", "exit"]:
             print("Good bye!")
             break
-        elif command == "hello":
-            print(hello())
-        elif command.startswith("add"):
-            params = input("Enter name and phone (separated by space): ")
-            print(add_contact(params))
-        elif command.startswith("change"):
-            params = input("Enter name and new phone (separated by space): ")
-            print(change_contact(params))
-        elif command.startswith("phone"):
-            name = input("Enter name: ")
-            print(phone_contact(name))
-        elif command == "show all":
-            print(show_all_contacts())
         else:
-            print("Invalid command. Type 'help' for a list of commands.")
+            result = process_command(user_input)
+            print(result)
 
 if __name__ == "__main__":
     main()
-
