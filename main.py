@@ -7,7 +7,7 @@ def input_error(func):
         except ValueError:
             return "Give me name and phone please"
         except IndexError:
-            return "Invalid command. Type 'help' for a list of commands."
+            return "Invalid command. Available commands:\n'hello', 'add', 'change', 'phone', 'show all', 'good bye', 'close', 'exit'."
     return wrapper
 
 contacts = {}
@@ -51,7 +51,7 @@ def process_command(user_input):
     elif user_input == "show all":
         return show_all()
     else:
-        return "Invalid command. Type 'help' for a list of commands."
+        return "Invalid command. Available commands:\n'hello', 'add', 'change', 'phone', 'show all', 'good bye', 'close', 'exit'."
 
 def main():
     while True:
